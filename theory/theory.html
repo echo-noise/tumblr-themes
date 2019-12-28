@@ -1,0 +1,916 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <title>{Title}</title>
+
+    {block:Description}
+    <meta name="description" content="{MetaDescription}" />
+    {/block:Description}
+    
+    <!-- blog about url -->
+    <meta name="text:aboutUrl" content="/" />
+    <!-- custom links -->
+    <meta name="text:link1 title" content="link 1" />
+    <meta name="text:link1" content="/" />
+    <meta name="text:link2 title" content="link 2" />
+    <meta name="text:link2" content="/" />
+    <!-- color palette -->
+    <meta name="color:Links" content="#ffdad4" />
+    <meta name="color:BodyBg" content="#333"/>
+    <meta name="color:BlogTitle" content="#fff" />
+    <meta name="color:ContentBg" content="#000" />
+    <meta name="color:TextColor" content="#c3c3c3"/>
+    <meta name="color:HeaderTxt" content="#fff"/>
+    <meta name="color:DarkTextColor" content="#303030"/>
+    <meta name="color:EmphasisColor" content="#ffccff"/>
+    
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Fresca|PT+Sans');
+      ::-moz-selection {
+        color: #fff;
+        background-color: #c0c0c0;
+      }
+      ::selection {
+        color: #fff;
+        background-color: #c0c0c0;
+      }
+      a, 
+      a:active, 
+      a:focus, 
+      a:hover { text-decoration: none; }
+      a:active, 
+      a:focus,
+      a:hover { color: #ffffff; }
+      a:active, 
+      a:focus { outline: 0; }
+      a { color: {color:Links}; }
+      h1 { font-family: 'Fresca', sans-serif; }
+
+      /**
+       * global transitions
+       */
+      a,
+      a:active,
+      a:focus,
+      a:hover,
+      .nav-button, 
+      .nav-button:hover, 
+      #subnav div.button:hover,
+      #subnav div.button:hover {
+        -moz-transition: 200ms linear;
+        -o-transition: 200ms linear;
+        -webkit-transition: 200ms linear;
+        transition: 200ms linear;
+      }
+
+      /**
+       * bg
+       */
+      body {
+        background-color: {color:BodyBg};
+        font-family: 'PT Sans', sans-serif;
+      }
+
+      /**
+       * sidebar 
+       */
+      #sidebar,
+      #theme-link {
+        left: 20px;
+        position: fixed; 
+      }
+      #sidebar {
+        height: 100%;
+        top: 0;
+        width: 210px;
+      }
+        #sidebar h1 {
+          color: {color:BlogTitle};
+          font-size: 25px;
+          margin-top: 200px;
+          text-align: center;
+          width: 100%;
+        }
+        #sb-content-wrap {
+          background-color: {color:ContentBg};
+          max-height: 150px;
+          margin: 1px 9px 0 auto;
+          padding: 10px 5px 2px 5px;
+          width: 88%;
+          z-index: 2;
+        }
+        #blog-description {
+          color: {color:TextColor};
+          border: 1px solid white;
+          font-size: 10.5px;
+          overflow: auto;
+          padding: 5px;
+          text-align: center;
+          width: 170px;
+          word-wrap: break-word;
+        }
+
+      /* sidebar links */
+      nav {
+        color: {color:DarkTextColor};
+        font-size: 9px;
+        text-align: center;
+        width: auto;
+      }
+       .nav-button {
+          background-color: {color:EmphasisColor};
+          color: {color:DarkTextColor};
+          cursor: pointer;
+          font-size: 10.5px;
+          margin-bottom: 2px;
+          padding: 2px;
+          text-align: center;
+          width: calc(100%-2px);
+        }
+        .nav-button:hover {
+          background-color: {color:DarkTextColor};
+          color: {color:EmphasisColor};
+          text-shadow: initial;
+        }
+        #subnav {
+          background-color: {color:BodyBg};
+        }
+        #subnav div.button {
+          background-color: {color:Links};
+          color: {color:DarkTextColor};
+          border-color: #000;
+          margin-top: 2px;
+          padding: 2px;
+          text-align: center;
+        }
+        #subnav div.button:hover {
+          background-color: #fff;
+          color: #000;
+        }
+      #theme-link {
+        font-size: 10.5px;
+        bottom: 5px;
+        z-index: 3;
+      }
+
+      /**
+       * posts 
+       */
+
+      /* post grid */
+      #blog-grid {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+      }
+
+      /* all posts */
+      .entry {
+        float: left;
+        height: auto;
+        margin-bottom: 20px;
+        position: relative;
+      }
+        .entry h2 {
+          color: {color:HeaderTxt};
+          text-align: center;
+          width: 100%;
+        }
+
+      /* text based posts */
+      .entry.txt-entry {
+        background-color: {color:ContentBg};
+        color: {color:TextColor};
+      }
+      .post-content {
+        text-align: justified;
+        padding: 2px 5px 2px 5px;
+        width: calc(100% - 10px);
+        word-wrap: break-word;
+      }
+      .txt-entry .emphasized-text {
+        color: {color:EmphasisColor};
+        text-align: right;
+      }
+     
+      /* quotes */
+      .quote-wrap {
+        text-align: center;
+        width: 100%;
+      }
+        .quote-mark {
+          color: {color:EmphasisColor};
+          display: inline-block;
+          float: left;
+          font-weight: normal;
+          width: 5px;
+        }
+        .quote {
+          color: {color:HeaderTxt};
+          display: inline-block;
+          float: left;
+          font-family: italic 500 inherit 'Fresca', sans-serif;
+          width: calc(100% - 20px);
+        }
+        .source {
+          font-size: 9.5px;
+          font-style: italic;
+          padding: 2px;
+          text-align: right;
+        }
+      
+      /* chat post */
+      .chat {
+        list-style-type: none;
+        padding: 2px 5px 2px 5px;
+      }
+        .chat .user-label {
+          font-weight: bold;
+        }
+        .line {
+          font-weight: lighter;
+        }
+      
+      /* reblog chain */
+      .post-content blockquote { 
+        border-left: 1px dotted {color:EmphasisColor}; 
+      }
+        .post-content blockquote p { 
+          margin-left: 15px;
+        }
+      
+      /**
+       * img/photoset posts
+       */
+      .media-entry {
+        border: 1px solid #111;
+        margin-right: 2px;
+        margin-left: auto;
+      }
+      .media-entry img {
+        display: block;
+        margin: auto;
+        height: auto;
+        width: 100%;
+      }
+
+    /** 
+     * ------------------------------------------
+     * index page only
+     * ------------------------------------------
+     */
+      {block:IndexPage}
+      .post-content { font-size: 10.5px; }
+      .question .user-label { font-size: 9px; }
+      .txt-entry .emphasized-text { font-size: 9.5px; }
+      .quote-mark { font-size: 25px; }
+      .quote { font-size: 26px; }
+      .chat .user-label,
+      .line { font-size: 10.5px; }
+
+      /** 
+       * 'reblogged from' tag  
+       */
+      .reblog-tag {
+        background-color: #000;
+        color: #fff;
+        display: block;
+        font-size: 9px;
+        margin-top: -1px;
+        padding: 1px;
+        position: absolute;
+        width: auto;
+        z-index: 1;
+      }
+
+      /**
+       * on-hover tooltip
+       */
+      .tooltip {
+        background-color: {color:BodyBg};
+        -moz-box-shadow: 0px 3px {color:BodyBg},
+                    4px 3px {color:BodyBg},
+                    4px -3px {color:BodyBg},
+                    4px 0px {color:BodyBg},
+                    -4px 0px {color:BodyBg},
+                    -4px 3px {color:BodyBg},
+                    -4px -3px {color:BodyBg},
+                    0px -3px {color:BodyBg};
+        -webkit-box-shadow: 0px 3px {color:BodyBg},
+                    4px 3px {color:BodyBg},
+                    4px -3px {color:BodyBg},
+                    4px 0px {color:BodyBg},
+                    -4px 0px {color:BodyBg},
+                    -4px 3px {color:BodyBg},
+                    -4px -3px {color:BodyBg},
+                    0px -3px {color:BodyBg};
+        box-shadow: 0px 3px {color:BodyBg},
+                    4px 3px {color:BodyBg},
+                    4px -3px {color:BodyBg},
+                    4px 0px {color:BodyBg},
+                    -4px 0px {color:BodyBg},
+                    -4px 3px {color:BodyBg},
+                    -4px -3px {color:BodyBg},
+                    0px -3px {color:BodyBg};
+        opacity: 0;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        -moz-transition: 500ms linear;
+        -o-transition: 500ms linear;
+        -webkit-transition: 500ms linear;
+        transition: 500ms linear;
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 100%;
+        z-index: 1;
+      }
+        .tooltip a {
+          font-size: 12px;
+          font-weight: 500;
+        }
+        .tooltip .button { 
+          display: inline-block; 
+        }
+        .tooltip .button:first-of-type { 
+          margin-right: 10px; 
+        }
+
+      /**
+       * effects... 
+       */
+      .entry:hover .blur {
+        -webkit-filter: blur(1px) grayscale(100%);
+        filter: blur(1px) grayscale(100%);
+        -moz-transition: 750ms linear;
+        -o-transition: 750ms linear;
+        -webkit-transition: 750ms linear;
+        transition: 750ms linear;
+      }
+      .entry:hover .tooltip {
+        filter: none;
+        opacity: 1;
+        -moz-transition: 400ms linear;
+        -o-transition: 400ms linear;
+        -webkit-transition: 400ms linear;
+        transition: 400ms linear;
+      }
+
+      /**
+       * pagination 
+       */
+      #pagination {
+        bottom: 10px;
+        color: {color:EmphasisColor};
+        font-size: 10.5px;
+        font-weight: 200;
+        position: fixed;
+        right: 10px;
+        text-align: center;
+      }
+        a.page-link,
+        a.page-link:hover {
+          -moz-transition: 200ms linear;
+          -o-transition: 200ms linear;
+          -webkit-transition: 200ms linear;
+          transition: 200ms linear;
+        }
+        a.page-link {
+          background-color: {color:EmphasisColor};
+          color: {color:DarkTextColor};
+          display: block;
+          font-size: 10.5px;
+          font-weight: 600;
+        }
+        a.page-link:active,
+        a.page-link:focus,
+        a.page-link:hover {
+          background-color: {color:ContentBg};
+          color: {color:EmphasisColor};
+          text-shadow: initial;
+        }
+
+      /* only relevant to mansonry */
+      #gutter-size { width: 1.5%; }
+      #entry-size, 
+      .entry { width: 21.5%; }
+      {/block:IndexPage}
+
+      /** 
+       * -----------------------------------------------
+       * permalink only
+       * ------------------------------------------------
+       */
+      {block:Permalink}
+      .entry {
+        max-height: 600px;
+        margin: 20px auto 40px auto;
+        width: 45%;
+      }
+      .chat .user-label,
+      .line { font-size: 12.5px; }
+      .post-content { font-size: 12.5px; }
+      .quote { font-size: 26px; }
+      .quote-mark { font-size: 40px; }
+      .question .user-label,
+      .txt-entry .emphasized-text { font-size: 10.5px; }
+
+      /**
+       * permalink details bar 
+       */
+      #permalink-bar {
+        background-color: {color:ContentBg};
+        color: {color:TextColor};
+        float: left;
+        margin-top: 20px;
+        margin-left: 50px;
+        text-align: justified;
+        width: 35%;
+        word-wrap: break-word;
+      }
+        .permalink-txt {
+          margin-left: 10px;
+        }
+        #permalink-header {
+          color: {color:HeaderTxt};
+          font: bold 20px 'Fresca', sans-serif;
+        }
+        #img-caption {
+          font-size: 10.5px;
+          color: {color:EmphasisColor};
+          padding: 0px 5px 0px 5px;
+          word-wrap: break-word;
+          width: calc(100% - 10px);
+        }
+        #permalink-info {
+          padding: 2px 10px 2px 10px;
+          font-size: 10.5px;
+        }
+        #permalink-tags {
+          height: auto;
+          margin-top: 10px;
+          margin-bottom: 5px;
+          overflow: hidden;
+        }
+          .permalink-tag {
+            float: left;
+            font-size: 10.5px;
+            margin-right: 5px;
+          }
+          .permalink-tag:last-of-type { 
+            margin-right: 0; 
+          }
+        #permalink-pagination { 
+          font-size: 9.5px; 
+        }
+          .permalink-pagination,
+          .permalink-pagination:hover {
+            -moz-transition: 200ms linear;
+            -o-transition: 200ms linear;
+            -webkit-transition: 200ms linear;
+            transition: 200ms linear;
+          }
+          .permalink-pagination {
+            display: inline-block;
+            opacity:0;
+            padding: 2px 10px 2px 10px;
+          }
+          .permalink-pagination:active,
+          .permalink-pagination:focus,
+          .permalink-pagination:hover {
+            background-color: {color:Links};
+            color: {color:DarkTextColor};
+            text-shadow: initial;
+          }
+        #permalink-note-wrap {
+          padding: 5px 10px 10px 10px;
+          font-size: 10.5px;
+        } 
+          #permalink-notes {
+            max-height: 400px;
+            overflow: auto;
+            font-size: 9.5px;
+          }
+      .permalink-pagination, 
+      #permalink-notes {
+        color: {color:DarkTextColor};
+        background-color: {color:EmphasisColor};
+      }
+      #permalink-notes a {
+        color: {color:DarkTextColor};
+        font-weight: bold;
+      }
+      {/block:Permalink}
+    </style>
+  </head>
+  <body>
+    <!-- sidebar -->
+    <div id="sidebar">
+      <h1>{Title}</h1>
+      <div id="sb-content-wrap">
+        {block:Description}
+        <div id="blog-description">
+          {Description}
+        </div>
+        {/block:Description}
+        <nav>
+          <a href="{BlogUrl}">index</a>
+          ⚫
+          <a href="{text:aboutUrl}">about</a>
+          ⚫
+          <a href="/ask">{AskLabel}</a>
+          ⚫
+          <a href="/archive">archive</a>
+        </nav>
+      </div> 
+      <div class="nav-button" id="dropdown">
+        links <span id = "ext-btn" style="display:block;float:right;">⌄</span>
+        <div id="subnav" style="display:none;">
+          <a href="{text:link1}">
+            <div class="button">{text:link1 title}</div>
+          </a>
+          <a href="{text:link2}">
+            <div class="button">{text:link2 title}</div>
+          </a>
+        </div>
+      </div>
+    </div> 
+    <div id="theme-link">
+      <a href="https://pastebin.com/6yERXnuP">theme</a>
+    </div>
+    <!-- blog -->
+    <div id="blog-grid">
+      {block:Posts}
+      {block:Answer}
+      <div class="entry txt-entry">
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <p>{NoteCountWithLabel}</p>
+          </a>
+          <div class="button-wrap">
+            <div class="button">
+              {ReblogButton color="white" size="20"}
+            </div>
+            <div class="button">
+              {LikeButton color="white" size="20"}
+            </div>
+          </div>
+        </div>
+        {/block:IndexPage}
+        <div class="question blur">
+          <span class="user-label"><strong>{Asker}</strong> asked...</span>
+          <p class="emphasized-text">
+            {Question}
+          </p>
+        </div>                 
+        <div class="post-content blur">
+          {Answer}
+        </div>    
+        {block:IndexPage}
+        {block:RebloggedFrom}
+        <div class="reblog-tag">
+          reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+        </div>
+        {/block:RebloggedFrom}
+        {/block:IndexPage}
+      </div>      
+      {/block:Answer}
+      {block:Text}
+      <div class="entry txt-entry">
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <p>{NoteCountWithLabel}</p>
+          </a>
+          <div class="button-wrap">
+            <div class="button">
+              {ReblogButton color="white" size="20"}
+            </div>
+            <div class="button">
+              {LikeButton color="white" size="20"}
+            </div>
+          </div>
+        </div>   
+        {/block:IndexPage}
+        {block:Title}
+        <a href="{Permalink}">
+          <h2 class="blur">{Title}</h2>
+        </a>
+        {/block:Title}
+        <div class="post-content blur">
+          {Body}
+        </div>
+        {block:IndexPage}
+        {block:RebloggedFrom}
+        <div class="reblog-tag">
+            reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+        </div>
+        {/block:RebloggedFrom}
+        {/block:IndexPage}
+      </div>  
+      {/block:Text}
+      {block:Quote}
+      <div class="entry txt-entry">
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <p>{NoteCountWithLabel}</p>
+          </a>
+          <div class="button-wrap">
+            <div class="button">
+              {ReblogButton color="white" size="20"}
+            </div>
+            <div class="button">
+              {LikeButton color="white" size="20"}
+            </div>
+          </div>
+        </div>
+        {/block:IndexPage}
+        <div class="quote-wrap blur">
+          <div class="quote-mark">“</div>
+          <div class="quote">  {Quote}  </div>
+          <div class="quote-mark">”</div>
+        </div>
+        {block:Source}
+        <div class="source blur">
+          ―{Source}
+        </div>
+        {/block:Source}
+        {block:IndexPage}
+        {block:RebloggedFrom}
+        <div class="reblog-tag">
+            reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+        </div>
+        {/block:RebloggedFrom}
+        {/block:IndexPage}
+      </div> 
+      {/block:Quote}
+      {block:Link}
+      <div class="entry txt-entry">
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <p>{NoteCountWithLabel}</p>
+          </a>
+          <div class="button-wrap">
+            <div class="button">
+              {ReblogButton color="white" size="20"}
+            </div>
+            <div class="button">
+              {LikeButton color="white" size="20"}
+            </div>
+          </div>
+        </div>
+        {/block:IndexPage}
+        <a href="{URL}" {target}>
+          <h2> {Name} ➚ </h2>
+        </a>  
+        {block:Description}
+        <div class="post-content blur">
+          {Description}
+        </div>
+        {/block:Description}
+        {block:IndexPage}
+        {block:RebloggedFrom}
+        <div class="reblog-tag">
+            reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+        </div>
+        {/block:RebloggedFrom}
+        {/block:IndexPage}
+      </div>  
+      {/block:Link}
+      {block:Chat}
+      <div class="entry txt-entry">
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <p>{NoteCountWithLabel}</p>
+          </a>
+          <div class="button-wrap">
+            <div class="button">
+              {ReblogButton color="white" size="20"}
+            </div>
+            <div class="button">
+              {LikeButton color="white" size="20"}
+            </div>
+          </div>
+        </div>
+        {/block:IndexPage}
+        {block:Title}
+        <a href="{Permalink}">
+          <h2 class="blur">{Title}</h2>
+        </a>
+        {/block:Title}
+        <ul class="chat blur"> 
+          {block:Lines}
+          <li class="line">
+            {block:Label}
+            <span class="user-label">{Label}</span>
+            {/block:Label}
+            {Line}
+          </li>
+          {/block:Lines}
+        </ul>
+        {block:IndexPage}
+        {block:RebloggedFrom}
+        <div class="reblog-tag">
+          reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+        </div>
+        {/block:RebloggedFrom}
+        {/block:IndexPage}
+      </div>    
+      {/block:Chat}
+      <!--media:images-->
+      {block:Photo}
+      <div class="entry media-entry">
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <p>{NoteCountWithLabel}</p>
+          </a>
+          <div class="button-wrap">
+            <div class="button">
+              {ReblogButton color="white" size="20"}
+            </div>
+            <div class="button">
+              {LikeButton color="white" size="20"}
+            </div>
+          </div>
+        </div> 
+        {/block:IndexPage}
+        <a href="{Permalink}">
+          <img class="blur" src="{photoURL-HighRes}" alt="{PhotoAlt}" />
+        </a>
+        {block:IndexPage}
+        {block:RebloggedFrom}
+        <div class="reblog-tag">
+          reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+        </div>
+        {/block:RebloggedFrom}
+        {/block:IndexPage}
+      </div> 
+      {/block:Photo}
+      {block:Photoset}
+      <div class="entry media-entry">
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <p>{NoteCountWithLabel}</p>
+          </a>
+          <div class="button-wrap">
+            <div class="button">
+              {ReblogButton color="white" size="20"}
+            </div>
+            <div class="button">
+              {LikeButton color="white" size="20"}
+            </div>
+          </div>
+        </div>
+        {/block:IndexPage}
+        {block:Photos}
+        <img class="blur" src="{photoURL-HighRes}" />
+        {/block:Photos}
+        {block:IndexPage}
+        {block:RebloggedFrom}
+        <div class="reblog-tag">
+          reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+        </div>
+        {/block:RebloggedFrom}
+        {/block:IndexPage}
+      </div> 
+      {/block:Photoset}
+      {block:Permalink}
+      <!-- wrapping everything on block:date so it wont show on /ask -->
+      {block:Date}
+      <div id="permalink-bar">
+        <p id="permalink-header" class="permalink-txt">post info</p>
+        {block:Caption}
+        <span class="permalink-txt" style="font-size: 10.5px;">
+          <strong>image caption:</strong>
+        </span><br />
+        <div id="img-caption" class="permalink-txt">
+          {Caption}
+        </div>
+        {/block:Caption}
+        <div id="permalink-info">
+          {block:NotReblog}
+          posted
+          {/block:NotReblog}
+          {block:RebloggedFrom}
+          reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+          {/block:RebloggedFrom}
+          on <strong>{DayOfMonthWithZero} {ShortMonth} {Year}</strong>...<br />
+          {block:ContentSource}
+          source is <a href="{SourceUrl}">{SourceTitle}</a><br />
+          {/block:ContentSource}
+          {block:HasTags}
+          <div id="permalink-tags">
+            tags<br /> 
+            {block:Tags}
+            <a class="permalink-tag" href="{TagURL}">#{Tag}</a>
+            {/block:Tags}
+          </div>
+          {/block:HasTags}
+        </div>
+        {block:PermalinkPagination}
+        <div id="permalink-pagination">
+          {block:NextPost}
+          <a class="permalink-pagination" href="{NextPost}">
+            newer post
+          </a>
+          {/block:NextPost}
+          {block:PreviousPost}
+          <a class="permalink-pagination" href="{PreviousPost}">
+            older post
+          </a>
+          {/block:PreviousPost}
+        </div>
+        {/block:PermalinkPagination}
+        <div id="permalink-note-wrap">
+          {NoteCountWithLabel}
+          {block:PostNotes}
+          <div id="permalink-notes">
+            {PostNotes}
+          </div>
+          {/block:PostNotes}
+        </div>
+      </div>
+      {/block:Date}
+      {/block:Permalink}
+      {/block:Posts}
+      <!-- relevant for masonry only -->
+      <div id="entry-size"></div>
+      <div id="gutter-size"></div>
+    </div> 
+    <!-- blog pagination -->
+    {block:IndexPage}
+    <div id="pagination">
+      page <strong>{CurrentPage}</strong>/{TotalPages}<br />
+        {block:PreviousPage}
+        <a class="page-link" href="{PreviousPage}">previous</a>
+        {/block:PreviousPage}
+        {block:NextPage}
+        <a class="page-link" href="{NextPage}">next</a>
+        {/block:NextPage}
+    </div> 
+    {/block:IndexPage}
+    <!-- scripts -->
+    <!-- link menu dropdown-->
+    <script>
+$("#dropdown").click(function() {
+  if ($("#subnav").css("display") == "none"){
+    $(this).css("background-color","{color:ContentBg}");
+    $(this).css("color","{color:Links}");
+    $(this).css("border-top","1px dotted white");
+    $("#ext-btn").text("⌃");
+    $("#subnav").css("display","block");
+  } else {
+    $(this).css("background-color","{color:EmphasisColor}");
+    $(this).css("color","{color:DarkTextColor}");
+    $(this).css("border-top","none");
+    $("#ext-btn").text("⌄");
+    $("#subnav").hide();
+  }
+})
+    </script>
+    <!-- keeps pagination of permalinks in place -->
+    <!-- only loaded on permalink pages with pagination. -->
+    {block:Permalink}
+    {block:PermalinkPagination}
+    <script>
+if ($(".permalink-pagination").length == 2) {
+    $(".permalink-pagination:eq(0)").css("text-align","left");
+    $(".permalink-pagination:eq(1)").css("text-align","right");
+    $(".permalink-pagination").css("width","calc(50% - 20px)");
+  } else {
+    $(".permalink-pagination").css("text-align","center");
+    $(".permalink-pagination").css("width","calc(100% - 20px)");
+  }
+    $(".permalink-pagination").css("opacity","1");
+    </script>
+    {/block:PermalinkPagination}
+    {/block:Permalink}
+    <!-- masonry settings -->
+    <!-- only initialized on index page -->
+    {block:IndexPage}
+    <script type="text/javascript">
+$(document).ready(function () {
+  $('#blog-grid').imagesLoaded(function () {
+    $('#blog-grid').masonry({
+      itemSelector: '.entry',
+      columnWidth: '#entry-size',
+      gutter: '#gutter-size',
+      percentagePosition: true
+    });
+  });
+});
+    </script>
+    {/block:IndexPage}
+  </body>
+</html>
