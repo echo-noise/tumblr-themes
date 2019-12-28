@@ -1,0 +1,747 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>{Title}</title>
+
+    {block:Description}
+    <meta name="description" content="{MetaDescription}" />
+    {/block:Description}
+    
+    <!-- blog about url -->
+    <meta name="text:aboutUrl" content="/" />
+    <!-- custom links -->
+    <meta name="text:link1 title" content="link 1" />
+    <meta name="text:link1" content="/" />
+    <meta name="text:link2 title" content="link 2" />
+    <meta name="text:link2" content="/" />
+    <!-- color palette -->
+    <meta name="color:Links" content="#a49393" />
+    <meta name="color:BodyBg" content="#ffdddd"/>
+    <meta name="color:BlogTitle" content="#fff" />
+    <meta name="color:ContentBg" content="#ffc7c7" />
+    <meta name="color:TextColor" content="#fff"/>
+    <meta name="color:HeaderTxt" content="#fff"/>
+    <meta name="color:DarkTextColor" content="#a49393"/>
+    <meta name="color:EmphasisColor" content="#a49393"/>
+    
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Fresca|PT+Sans');
+      ::-moz-selection {
+        color: #fff;
+        background-color: #c0c0c0;
+      }
+      ::selection {
+        color: #fff;
+        background-color: #c0c0c0;
+      }
+      a, 
+      a:active, 
+      a:focus, 
+      a:hover { text-decoration: none; }
+      a:active, 
+      a:focus,
+      a:hover { color: #ffffff; }
+      a:active, 
+      a:focus { outline: 0; }
+      a { color: {color:Links}; }
+      h1 { font-family: 'Fresca', sans-serif; }
+
+      /**
+       * global transitions
+       */
+      a,
+      a:active,
+      a:focus,
+      a:hover,
+      .nav-button, 
+      .nav-button:hover, 
+      #subnav div.button:hover,
+      #subnav div.button:hover {
+        -moz-transition: 200ms linear;
+        -o-transition: 200ms linear;
+        -webkit-transition: 200ms linear;
+        transition: 200ms linear;
+      }
+
+      /**
+       * bg
+       */
+      body {
+        background-color: {color:BodyBg};
+        font-family: 'PT Sans', sans-serif;
+      }
+
+      /**
+       * sidebar 
+       */
+      #sidebar {
+        left: 20px;
+        position: fixed; 
+      }
+      #sidebar {
+        height: 100%;
+        top: 0;
+        width: 210px;
+      }
+        #sb-content-wrap {
+          background-color: {color:ContentBg};
+          border: 2px solid #fff;
+          overflow: hidden;
+          margin: 200px 9px 0 auto;
+          padding: 10px 5px 2px 5px;
+          width: 88%;
+          z-index: 2;
+        }
+        #sidebar h1 {
+          color: {color:BlogTitle};
+          font-size: 25px;
+          text-align: center;
+        }
+        #blog-description {
+          background-color: {color:BodyBg};
+          color: {color:DarkTextColor};
+          font-size: 10.5px;
+          overflow: auto;
+          padding: 5px;
+          text-align: center;
+          width: 170px;
+          word-wrap: break-word;
+        }
+
+      /* sidebar links */
+      nav {
+        color: {color:DarkTextColor};
+        font-size: 9px;
+        text-align: center;
+        width: auto;
+      }
+       .nav-button {
+          background-color: {color:BodyBg};
+          color: {color:DarkTextColor};
+          cursor: pointer;
+          float: left;
+          font-size: 10.5px;
+          margin: 0px 0px 2px 2px;
+          padding: 5px 2px;
+          text-align: center;
+          width: 85px;
+          height: 40px;
+        }
+        .nav-button p {
+          color: {color:Links};
+        }
+        .nav-button:hover {
+          background-color: #fff;
+          color: #000;
+          text-shadow: initial;
+        }
+        .nav-button:hover p {
+          color: #000;
+        }
+        #subnav {
+          font-size: 10.5px;
+          position: absolute;
+          right: -30px;
+        }
+        #subnav div.button {
+          background-color: {color:ContentBg};
+          color: {color:TextColor};
+          border-color: #000;
+          margin-top: 2px;
+          padding: 2px;
+          text-align: center;
+        }
+        #subnav div.button:hover {
+          background-color: #fff;
+          color: #000;
+        }
+
+      /**
+       * posts 
+       */
+
+      /* all posts */
+      .container {
+        height: auto;
+        margin-bottom: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+        .entry h2 {
+          color: {color:HeaderTxt};
+          text-align: center;
+          width: 100%;
+        }
+
+      /* text based posts */
+      .entry.txt-entry {
+        background-color: {color:ContentBg};
+        color: {color:TextColor};
+        padding: 2px 5px 2px 5px;
+      }
+      .post-content {
+        text-align: justified;
+        width: calc(100% - 10px);
+        word-wrap: break-word;
+      }
+      .txt-entry .emphasized-text {
+        color: {color:EmphasisColor};
+        text-align: right;
+      }
+     
+      /* quotes */
+      .quote-wrap {
+        text-align: center;
+        width: 100%;
+      }
+        .quote-mark {
+          color: {color:EmphasisColor};
+          display: inline-block;
+          float: left;
+          font-weight: normal;
+          width: 5px;
+        }
+        .quote {
+          color: {color:HeaderTxt};
+          display: inline-block;
+          float: left;
+          font-family: italic 500 inherit 'Fresca', sans-serif;
+          width: calc(100% - 20px);
+        }
+        .source {
+          font-size: 9.5px;
+          font-style: italic;
+          padding: 2px;
+          text-align: right;
+        }
+      
+      /* chat post */
+      .chat {
+        list-style-type: none;
+        padding: 2px 5px 2px 5px;
+      }
+        .chat .user-label {
+          font-weight: bold;
+        }
+        .line {
+          font-weight: lighter;
+        }
+      
+      /* reblog chain */
+      .post-content blockquote { 
+        border-left: 1px dotted {color:EmphasisColor}; 
+      }
+        .post-content blockquote p { 
+          margin-left: 15px;
+        }
+      
+      /**
+       * img/photoset posts
+       */
+      .media-entry {
+        border: 1px solid #fff;
+        height: auto;
+      }
+      .media-entry img {
+        margin: auto;
+        height: auto;
+        width: 100%;
+        display: block;
+      }
+      #blog { margin-left: 280px; width: calc(100% - 280px); }
+
+    /** 
+     * ------------------------------------------
+     * index page only
+     * ------------------------------------------
+     */
+      {block:IndexPage}
+      #blog { margin-left: 500px; width: calc(100% - 600px); }
+      .post-content { font-size: 10.5px; }
+      .question .user-label { font-size: 9px; }
+      .txt-entry .emphasized-text { font-size: 9.5px; }
+      .quote-mark { font-size: 25px; }
+      .quote { font-size: 26px; }
+      .chat .user-label,
+      .line { font-size: 10.5px; }
+
+      .container { overflow: hidden; width: 470px }
+      .entry { float:left; width: 370px; }
+
+      /**
+       * on-hover tooltip
+       */
+      .tooltip {
+        background-color: {color:ContentBg};
+        float: left;
+        opacity: 0;
+        width: 50px;
+        text-align: center;
+        -moz-transition: 500ms linear;
+        -o-transition: 500ms linear;
+        -webkit-transition: 500ms linear;
+        transition: 500ms linear;
+        z-index: 1;
+      }
+        .tooltip a {
+          font-size: 10.5px;
+        }
+        .tooltip .button { 
+          height: 20px;
+          padding: 2px 0px 2px 0px;
+        }
+
+      /**
+       * effects... 
+       */
+      .container:hover .tooltip {
+        filter: none;
+        opacity: 1;
+        -moz-transition: 400ms linear;
+        -o-transition: 400ms linear;
+        -webkit-transition: 400ms linear;
+        transition: 400ms linear;
+      }
+
+      /**
+       * pagination 
+       */
+      #pagination {
+        bottom: 10px;
+        color: {color:EmphasisColor};
+        font-size: 10.5px;
+        font-weight: 200;
+        position: fixed;
+        right: 10px;
+        text-align: center;
+      }
+        a.page-link,
+        a.page-link:hover {
+          -moz-transition: 200ms linear;
+          -o-transition: 200ms linear;
+          -webkit-transition: 200ms linear;
+          transition: 200ms linear;
+        }
+        a.page-link {
+          background-color: {color:ContentBg};
+          border: 1px solid #fff;
+          color: {color:DarkTextColor};
+          display: block;
+          font-size: 10.5px;
+          font-weight: 600;
+        }
+        a.page-link:active,
+        a.page-link:focus,
+        a.page-link:hover {
+          background-color: {color:ContentBg};
+          color: {color:EmphasisColor};
+          text-shadow: initial;
+        }
+
+      {/block:IndexPage}
+
+      /** 
+       * -----------------------------------------------
+       * permalink only
+       * ------------------------------------------------
+       */
+      {block:Permalink}
+      .container { float:left; width: 500px; }
+      .container, 
+      #permalink-bar { margin-top: 20px; }
+      .chat .user-label,
+      .line { font-size: 12.5px; }
+      .post-content { font-size: 12.5px; }
+      .quote { font-size: 26px; }
+      .quote-mark { font-size: 40px; }
+      .question .user-label,
+      .txt-entry .emphasized-text { font-size: 10.5px; }
+
+      /**
+       * permalink details bar 
+       */
+      #permalink-bar {
+        background-color: {color:ContentBg};
+        color: {color:TextColor};
+        float: left;
+        margin-left: 50px;
+        text-align: justified;
+        width: 35%;
+        word-wrap: break-word;
+      }
+        .permalink-txt {
+          margin-left: 10px;
+        }
+        #permalink-header {
+          color: {color:HeaderTxt};
+          font: bold 20px 'Fresca', sans-serif;
+        }
+        #img-caption {
+          font-size: 10.5px;
+          color: {color:EmphasisColor};
+          padding: 0px 5px 0px 5px;
+          word-wrap: break-word;
+          width: calc(100% - 10px);
+        }
+        #permalink-info {
+          padding: 2px 10px 2px 10px;
+          font-size: 10.5px;
+        }
+        #permalink-tags {
+          height: auto;
+          margin-top: 10px;
+          margin-bottom: 5px;
+          overflow: hidden;
+        }
+          .permalink-tag {
+            float: left;
+            font-size: 10.5px;
+            margin-right: 5px;
+          }
+          .permalink-tag:last-of-type { 
+            margin-right: 0; 
+          }
+        #permalink-pagination { 
+          font-size: 9.5px; 
+        }
+          .permalink-pagination,
+          .permalink-pagination:hover {
+            -moz-transition: 200ms linear;
+            -o-transition: 200ms linear;
+            -webkit-transition: 200ms linear;
+            transition: 200ms linear;
+          }
+          .permalink-pagination {
+            display: inline-block;
+            opacity:0;
+            padding: 2px 10px 2px 10px;
+          }
+          .permalink-pagination:active,
+          .permalink-pagination:focus,
+          .permalink-pagination:hover {
+            background-color: #fff;
+            color: {color:DarkTextColor};
+            text-shadow: initial;
+          }
+        #permalink-note-wrap {
+          padding: 5px 10px 10px 10px;
+          font-size: 10.5px;
+        } 
+          #permalink-notes {
+            max-height: 400px;
+            overflow: auto;
+            font-size: 9.5px;
+          }
+      .permalink-pagination, 
+      #permalink-notes {
+        color: {color:DarkTextColor};
+        background-color: #fff;
+      }
+      #permalink-notes a {
+        color: {color:DarkTextColor};
+        font-weight: bold;
+      }
+      {/block:Permalink}
+    </style>
+  </head>
+  <body>
+    <!-- sidebar -->
+    <div id="sidebar">
+      <div id="sb-content-wrap">
+        {block:Description}
+        <div id="blog-description">
+          {Description}
+        </div>
+        {/block:Description}
+        <a href="{BlogUrl}"><h1>{Title}</h1></a>
+        <nav>
+          <div class = "nav-button">
+            <p> <a href="/ask">{AskLabel}</a> </p>
+          </div>
+          <div class="nav-button" id="dropdown">
+            <p>
+            links <span id = "ext-btn" style="display:block;float:right;">»</span>
+            </p>
+          </div>
+          <div id="subnav" style="display:none;">
+            <a href="/archive">
+              <div class="button">archive</div>
+            </a>
+            <a href="{text:aboutUrl}">
+              <div class="button">about</div>
+            </a>
+            <a href="{text:link1}">
+              <div class="button">{text:link1 title}</div>
+            </a>
+            <a href="{text:link2}">
+              <div class="button">{text:link2 title}</div>
+            </a>
+          </div>
+        </nav>
+      </div> 
+    </div> 
+    <!-- blog -->
+    <div id="blog">
+      {block:Posts}
+      {block:Answer}
+      <div class="container">
+        <div class="entry txt-entry">
+          <div class="question">
+            <span class="user-label"><strong>{Asker}</strong> asked...</span>
+            <p class="emphasized-text">
+              {Question}
+            </p>
+          </div>                 
+          <div class="post-content">
+            {Answer}
+          </div>    
+        </div>
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <div class="button">{NoteCountWithLabel}</div>
+          </a>
+        </div>
+        {/block:IndexPage}
+      </div>      
+      {/block:Answer}
+      {block:Text}
+      <div class="container">
+        <div class="entry txt-entry">
+          {block:Title}
+          <a href="{Permalink}">
+            <h2>{Title}</h2>
+          </a>
+          {/block:Title}
+          <div class="post-content">
+            {Body}
+          </div>
+        </div>
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <div class="button">{NoteCountWithLabel}</div>
+          </a>
+        </div>   
+        {/block:IndexPage}
+      </div>  
+      {/block:Text}
+      {block:Quote}
+      <div class="container">
+        <div class="entry txt-entry">
+          <div class="quote-wrap">
+            <div class="quote-mark">“</div>
+            <div class="quote">  {Quote}  </div>
+            <div class="quote-mark">”</div>
+          </div>
+          {block:Source}
+          <div class="source">
+            ―{Source}
+          </div>
+          {/block:Source}
+        </div>
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <div class="button">{NoteCountWithLabel}</div>
+          </a>
+        </div>
+        {/block:IndexPage}
+      </div> 
+      {/block:Quote}
+      {block:Link}
+      <div class="container">
+        <div class="entry txt-entry">
+          <a href="{URL}" {target}>
+            <h2> {Name} ➚ </h2>
+          </a>  
+          {block:Description}
+          <div class="post-content">
+            {Description}
+          </div>
+          {/block:Description}
+        </div>
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <div class="button">{NoteCountWithLabel}</div>
+          </a>
+        </div>
+        {/block:IndexPage}
+      </div>  
+      {/block:Link}
+      {block:Chat}
+      <div class="container">
+        <div class="entry txt-entry">
+          {block:Title}
+          <a href="{Permalink}">
+            <h2>{Title}</h2>
+          </a>
+          {/block:Title}
+          <ul class="chat"> 
+            {block:Lines}
+            <li class="line">
+              {block:Label}
+              <span class="user-label">{Label}</span>
+              {/block:Label}
+              {Line}
+            </li>
+            {/block:Lines}
+          </ul>
+        </div>
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <div class="button">{NoteCountWithLabel}</div>
+          </a>
+        </div>
+        {/block:IndexPage}
+      </div>    
+      {/block:Chat}
+      <!--media:images-->
+      {block:Photo}
+      <div class="container">
+        <div class="entry media-entry">
+          {block:IndexPage}
+          <a href="{Permalink}">
+          {/block:IndexPage}
+          {block:Permalink}
+          <a href="{photoURL-HighRes}">
+          {/block:Permalink}
+            <img src="{photoURL-HighRes}" alt="{PhotoAlt}" />
+          </a>
+        </div>
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <div class="button">{NoteCountWithLabel}</div>
+          </a>
+        </div> 
+        {/block:IndexPage}
+      </div> 
+      {/block:Photo}
+      {block:Photoset}
+      <div class="container">
+        <div class="entry media-entry">
+          {block:Photos}
+          <img src="{photoURL-HighRes}" />
+          {/block:Photos}
+        </div>
+        {block:IndexPage}
+        <div class="tooltip">
+          <a href="{Permalink}">
+            <div class="button">{NoteCountWithLabel}</div>
+          </a>
+        </div>
+        {/block:IndexPage}
+      </div> 
+      {/block:Photoset}
+      {block:Permalink}
+      <!-- wrapping everything on block:date so it wont show on /ask -->
+      {block:Date}
+      <div id="permalink-bar">
+        <p id="permalink-header" class="permalink-txt">post info</p>
+        {block:Caption}
+        <span class="permalink-txt" style="font-size: 10.5px;">
+          <strong>image caption:</strong>
+        </span><br />
+        <div id="img-caption" class="permalink-txt">
+          {Caption}
+        </div>
+        {/block:Caption}
+        <div id="permalink-info">
+          {block:NotReblog}
+          posted
+          {/block:NotReblog}
+          {block:RebloggedFrom}
+          reblogged from <a href="{ReblogParentURL}">{ReblogParentName}</a>
+          {/block:RebloggedFrom}
+          on <strong>{DayOfMonthWithZero} {ShortMonth} {Year}</strong>...<br />
+          {block:ContentSource}
+          source is <a href="{SourceUrl}">{SourceTitle}</a><br />
+          {/block:ContentSource}
+          {block:HasTags}
+          <div id="permalink-tags">
+            tags<br /> 
+            {block:Tags}
+            <a class="permalink-tag" href="{TagURL}">#{Tag}</a>
+            {/block:Tags}
+          </div>
+          {/block:HasTags}
+        </div>
+        {block:PermalinkPagination}
+        <div id="permalink-pagination">
+          {block:NextPost}
+          <a class="permalink-pagination" href="{NextPost}">
+            newer post
+          </a>
+          {/block:NextPost}
+          {block:PreviousPost}
+          <a class="permalink-pagination" href="{PreviousPost}">
+            older post
+          </a>
+          {/block:PreviousPost}
+        </div>
+        {/block:PermalinkPagination}
+        <div id="permalink-note-wrap">
+          {NoteCountWithLabel}
+          {block:PostNotes}
+          <div id="permalink-notes">
+            {PostNotes}
+          </div>
+          {/block:PostNotes}
+        </div>
+      </div>
+      {/block:Date}
+      {/block:Permalink}
+      {/block:Posts}
+    </div> 
+    <!-- blog pagination -->
+    {block:IndexPage}
+    <div id="pagination">
+      page <strong>{CurrentPage}</strong>/{TotalPages}<br />
+        {block:PreviousPage}
+        <a class="page-link" href="{PreviousPage}">previous</a>
+        {/block:PreviousPage}
+        {block:NextPage}
+        <a class="page-link" href="{NextPage}">next</a>
+        {/block:NextPage}
+    </div> 
+    {/block:IndexPage}
+    <!-- scripts -->
+    <!-- link menu dropdown-->
+    <script>
+$("#dropdown").click(function() {
+  if ($("#subnav").css("display") == "none"){
+    $(this).css("background-color","{color:ContentBg}");
+    $(this).css("color","{color:Links}");
+    $("#ext-btn").text("«");
+    $("#subnav").css("display","block");
+  } else {
+    $(this).css("background-color","{color:BodyBg}");
+    $(this).css("color","{color:Links}");
+    $("#ext-btn").text("»");
+    $("#subnav").hide();
+  }
+})
+    </script>
+    <!-- keeps pagination of permalinks in place -->
+    <!-- only loaded on permalink pages with pagination. -->
+    {block:Permalink}
+    {block:PermalinkPagination}
+    <script>
+if ($(".permalink-pagination").length == 2) {
+    $(".permalink-pagination:eq(0)").css("text-align","left");
+    $(".permalink-pagination:eq(1)").css("text-align","right");
+    $(".permalink-pagination").css("width","calc(50% - 20px)");
+  } else {
+    $(".permalink-pagination").css("text-align","center");
+    $(".permalink-pagination").css("width","calc(100% - 20px)");
+  }
+    $(".permalink-pagination").css("opacity","1");
+    </script>
+    {/block:PermalinkPagination}
+    {/block:Permalink}
+  </body>
+</html>
