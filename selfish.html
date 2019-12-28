@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<head>
+  <title>{Title}</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+  <meta name="text:S1Title" content="[section title]" />
+  <meta name="text:S1Link1" content="[link1 title]" />
+  <meta name="text:S1Link1URL" content="/" />
+  <meta name="text:S1Link2" content="[link2 title]" />
+  <meta name="text:S1Link2URL" content="/" />
+  <meta name="text:S1Link3" content="[link3 title]" />
+  <meta name="text:S1Link3URL" content="/" />
+  <meta name="text:S1Link4" content="[link4 title]" />
+  <meta name="text:S1Link4URL" content="/" />
+  <meta name="text:S2Title" content="[section title]" />
+  <meta name="text:S2Link1" content="[link1 title]" />
+  <meta name="text:S2Link1URL" content="/" />
+  <meta name="text:S2Link2" content="[link2 title]" />
+  <meta name="text:S2Link2URL" content="/" />
+  <meta name="text:S2Link3" content="[link3 title]" />
+  <meta name="text:S2Link3URL" content="/" />
+  <meta name="text:S3Title" content="[section title]" />
+  <meta name="text:S3Link1" content="[link1 title]" />
+  <meta name="text:S3Link1URL" content="/" />
+  <meta name="text:S3Link2" content="[link2 title]" />
+  <meta name="text:S3Link2URL" content="/" />
+  <meta name="text:S3Link3" content="[link3 title]" />
+  <meta name="text:S3Link3URL" content="/" />
+  <meta name="text:CursorRight" content="❱"/>
+  <meta name="text:CursorLeft" content="❰"/>
+  <meta name="text:CursorUp" content="⛦"/>
+  <meta name="text:CursorDown" content="⛧"/>
+<style>
+html, body { padding: 0; margin: 0; }
+html { min-height: 100%; }
+body, body.active { transition: background .3s; }
+body { background: linear-gradient(#ffc7c8, #ffdddd); font-family: monospace; }
+body.active { background: rgba(0,0,0,0.4); } 
+a { text-decoration: none; color: #fb5959; }
+a:visited { color: #fb5959; text-decoration: line-through; }
+#sidebar a { color: #ffffff; }
+
+.dropdown > p, #toggle { 
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none; 
+}
+
+#toggle:hover, .dropdown p:hover { cursor: pointer }
+
+#pagination {
+  bottom: 2px;
+  color: #7d5d5d;
+  font-weight: bold;
+  position: fixed;
+  right: 2px;
+  z-index: 1;
+}
+
+#sidebar, #sidebar.active { transition: transform .5s; }
+#sidebar.active { transform: translateX(0); }
+#sidebar {
+  height: 100%;
+  position: fixed;
+  transform: translateX(-230px);
+  z-index: 1;
+}
+  #sidebar > div:first-of-type {
+    color: #ffffff;
+    background-color: #fba6a6;
+    float: left;
+    height: 100%;
+    padding: 25px 15px 10px 15px;
+    text-align: center;
+    width: 200px;
+  }
+    nav { margin-top: 40px; }
+      .dropdown { font-size: 15px; font-weight: bold; }
+      .dropdown div, .dropdown .active { transition: opacity .5s; }
+      .dropdown li:hover { list-style-type: circle; }
+      .dropdown div {
+        display: none;
+        font-size: 12px;
+        font-weight: normal;
+        opacity: 0;
+      }
+    #toggle {
+      background-color: #fb5959;
+      float: left;
+      height: 100%;
+      width: 15px;
+    }
+      #toggle p {
+        color: #ffffff;
+        font-weight: bold;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+#blog, #blog.active { transition: filter .3s; }
+#blog.active { filter: brightness(50%) grayscale(50%); }
+#blog {
+  height: auto;
+  min-height: 100%;
+  padding: 40px 50px;
+  width: calc(100% - 100px);
+  z-index: 0;
+}
+  article {
+    background-color: rgba(255,245,245,0.83);
+    border-radius: 2px;
+    color: #7d5d5d;
+    font-size: 12px;
+    height: auto;
+    margin: auto;
+    margin-top: 7px;
+    max-width: 700px;
+    padding: 10px;
+    word-wrap: break-word;
+  }
+  .chat,
+  .tags ul,
+  .dropdown div ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .tags ul li {
+    display: inline-block;
+    margin: 0 5px 0 0;
+  }
+  .quote p {
+    text-align: center;
+    font-size: 16px;
+  }
+  .quote p:nth-of-type(2) {
+    font-size: 10px;
+    text-align: right;
+    width: 100%;
+  }
+  .media img {
+    display: block;
+    margin: auto;
+  }
+</style>
+</head>
+
+<body>
+  <div id="sidebar">
+    <div>
+      <a href="/"><h1>{Title}</h1></a>
+      <p>{Description}</p>
+      <nav>
+        <div class="dropdown">
+          <p>{text:S1Title}    <span>{text:CursorDown}</span></p>
+          <div>
+            <ul>
+              <li><a href="{text:S1Link1URL}">{text:S1Link1}</a></li>
+              <li><a href="{text:S1Link2URL}">{text:S1Link2}</a></li>
+              <li><a href="{text:S1Link3URL}">{text:S1Link3}</a></li>
+              <li><a href="{text:S1Link4URL}">{text:S1Link4}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="dropdown">
+          <p>{text:S2Title}    <span>{text:CursorDown}</span></p>
+          <div>
+            <ul>
+              <li><a href="{text:S2Link1URL}">{text:S2Link1}</a></li>
+              <li><a href="{text:S2Link2URL}">{text:S2Link2}</a></li>
+              <li><a href="{text:S2Link3URL}">{text:S2Link3}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="dropdown">
+          <p>{text:S3Title}    <span>{text:CursorDown}</span></p>
+          <div>
+            <ul>
+              <li><a href="{text:S3Link1URL}">{text:S3Link1}</a></li>
+              <li><a href="{text:S3Link2URL}">{text:S3Link2}</a></li>
+              <li><a href="{text:S3Link3URL}">{text:S3Link3}</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    </div>
+
+    <div id="toggle">
+      <p>{text:CursorRight}</p>
+    </div>
+  </div>
+
+  <div id="blog">
+  {block:Posts}
+    {block:Text}
+    <article>
+      <div class="header">
+        {block:Date}
+        <strong>{DayOfMonthWithZero}·{ShortMonth}·{ShortYear}</strong>
+        {/block:Date}
+        {block:RebloggedFrom}
+        (via <a href="{ReblogParentURL}">{ReblogParentName}</a>)
+        {/block:RebloggedFrom}
+        - <a href="{Permalink}">permalink</a>
+      </div>
+      {Body}
+      <div class="tags">
+      {block:HasTags}
+        <ul>
+        {block:Tags}
+          <li><a href="{TagUrl}">#{Tag}</a></li>
+        {/block:Tags}
+        </ul>
+      {/block:HasTags}
+      </div>
+    </article>
+    {/block:Text}
+
+    {block:Chat}
+    <article>
+      <div class="header">
+        {block:Date}
+        <strong>{DayOfMonthWithZero}·{ShortMonth}·{ShortYear}</strong>
+        {/block:Date}
+        {block:RebloggedFrom}
+        (via <a href="{ReblogParentURL}">{ReblogParentName}</a>)
+        {/block:RebloggedFrom}
+        - <a href="{Permalink}">permalink</a>
+      </div>
+      <ul class="chat">
+        {block:Lines}
+        <li>{block:Label}<strong>{Label}</strong>{/block:Label} {Line}</li>
+        {/block:Lines}
+      </ul>
+      <div class="tags">
+        {block:HasTags}
+        <ul>
+        {block:Tags}
+          <li><a href="{TagURL}">#{Tag}</a></li>
+        {/block:Tags}
+        </ul>
+        {/block:HasTags}
+      </div>
+    </article>
+    {/block:Chat}
+
+    {block:Quote}
+    <article class="quote">
+      <div class="header">
+        {block:Date}
+        <strong>{DayOfMonthWithZero}·{ShortMonth}·{ShortYear}</strong>
+        {/block:Date}
+        {block:RebloggedFrom}
+        (via <a href="{ReblogParentURL}">{ReblogParentName}</a>)
+        {/block:RebloggedFrom}
+        - <a href="{Permalink}">permalink</a>
+      </div>
+      <p>{Quote}</p>
+      {block:Source}
+      <p>— {Source}</p>
+      {/block:Source}
+      <div class="tags">
+        {block:HasTags}
+        <ul>
+        {block:Tags}
+          <li><a href="{TagUrl}">#{Tag}</a></li>
+        {/block:Tags}
+        </ul>
+        {/block:HasTags}
+      </div>
+    </article>
+    {/block:Quote}
+
+    {block:Photo}
+    <article class="media">
+      <div class="header">
+        {block:Date}
+        <strong>{DayOfMonthWithZero}·{ShortMonth}·{ShortYear}</strong>
+        {/block:Date}
+        {block:RebloggedFrom}
+        (via <a href="{ReblogParentURL}">{ReblogParentName}</a>)
+        {/block:RebloggedFrom}
+        - <a href="{Permalink}">permalink</a>
+      </div>
+      <a href="{PhotoURL-Highres}"><img src="{PhotoURL-500}"/></a>
+      <div class="tags">
+        {block:HasTags}
+        <ul>
+        {block:Tags}
+          <li><a href="{TagURL}">#{Tag}</a></li>
+        {/block:Tags}
+        </ul>
+        {/block:HasTags}
+      </div>
+      {block:Caption}
+      <section class="description">
+	{Caption}
+      </section>
+      {/block:Caption}
+    </article>
+    {/block:Photo}
+
+    {block:Photoset}
+    <article class="media">
+      <div class="header">
+        {block:Date}
+        <strong>{DayOfMonthWithZero}·{ShortMonth}·{ShortYear}</strong>
+        {/block:Date}
+        {block:RebloggedFrom}
+        (via <a href="{ReblogParentURL}">{ReblogParentName}</a>)
+        {/block:RebloggedFrom}
+        - <a href="{Permalink}">permalink</a>
+      </div>
+      {block:Photos}
+      <a href="{PhotoURL-Highres}"><img src="{PhotoURL-500}"/></a>
+      {/block:Photos}
+      <div class="tags">
+        {block:HasTags}
+        <ul>
+        {block:Tags}
+          <li><a href="{TagURL}">#{Tag}</a></li>
+        {/block:Tags}
+        </ul>
+        {/block:HasTags}
+      </div>
+      {block:Caption}
+      <section class="description">
+	{Caption}
+      </section>
+      {/block:Caption}
+    </article>
+    {/block:Photoset}
+  {/block:Posts}
+  </div>
+  {block:IndexPage}
+  <div id="pagination">
+    {block:PreviousPage}<a href="{PreviousPage}">≪</a>{/block:PreviousPage}
+    page {CurrentPage}/{TotalPages}
+    {block:NextPage}<a href="{NextPage}">≫</a>{/block:NextPage}
+  </div>
+  {/block:IndexPage}
+<!-- script -->
+<script>
+$("#toggle").click(function() {
+  $(this).parent().toggleClass("active");
+  $("body").toggleClass("active");
+  $("#blog").toggleClass("active");
+  
+  if ($(this).html() == "<p>{text:CursorLeft}</p>"){
+    $(this).html("<p>{text:CursorRight}</p>");
+  } else {
+    $(this).html("<p>{text:CursorLeft}</p>");
+  }
+})
+$(".dropdown p").click(function() {
+  $(this).siblings("div").toggle();
+
+  if ($(this).siblings("div").css("opacity") == 1) {
+    $(this).siblings("div").css("opacity","0");
+  } else {
+    $(this).siblings("div").css("opacity","1");
+  }
+
+  if ($(this).children("span").html() == "{text:CursorDown}") {
+    $(this).children("span").html("{text:CursorUp}");
+  } else {
+    $(this).children("span").html("{text:CursorDown}");
+  }
+})
+</script>
+</body>
