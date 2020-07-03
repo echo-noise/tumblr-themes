@@ -63,6 +63,16 @@
         -webkit-transition: 200ms linear;
         transition: 200ms linear;
       }
+      
+      #pagination, #copyright  {
+        bottom: 10px;
+        color: {color:EmphasisColor};
+        font-size: 10.5px;
+        font-weight: 200;
+        position: fixed;
+        text-align: center;
+      }
+      #copyright {  left: 10px; }
 
       /**
        * bg
@@ -307,15 +317,7 @@
       /**
        * pagination 
        */
-      #pagination {
-        bottom: 10px;
-        color: {color:EmphasisColor};
-        font-size: 10.5px;
-        font-weight: 200;
-        position: fixed;
-        right: 10px;
-        text-align: center;
-      }
+      #pagination { right: 10px; }
         a.page-link,
         a.page-link:hover {
           -moz-transition: 200ms linear;
@@ -468,6 +470,7 @@
             <a href="/archive">
               <div class="button">archive</div>
             </a>
+
             <a href="{text:aboutUrl}">
               <div class="button">about</div>
             </a>
@@ -709,6 +712,9 @@
         {/block:NextPage}
     </div> 
     {/block:IndexPage}
+    <div id="copyright">
+               <a href="https://github.com/echo-noise/tumblr-themes/blob/master/v2v3/v2v3.html">(theme)</a>
+    </div>
     <!-- scripts -->
     <!-- link menu dropdown-->
     <script>
